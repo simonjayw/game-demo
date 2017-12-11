@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>打砖块</title>
+    <link rel="stylesheet" href="./css/style.css" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+<canvas id="arkanoid" width="600" height="600"></canvas>
+
+<script src="./js/common.js"></script>
+<script src="./js/game.js"></script>
+<script src="./js/paddle.js"></script>
+<script src="./js/ball.js"></script>
+<script>
+    var log = console.log.bind(console)
+
+    var imageFromPath = function (path) {
+        var img = new Image()
+        img.src = path
+        return img
+    }
+
+    var __main = function () {
+        var game = ArkGame()
+        var paddle = Paddle()
+        var ball = Ball()
+
+        game.registerAction('a', function () {
+            paddle.moveLeft()
+        })
+        game.registerAction('d', function () {
+            paddle.moveRight()
+        })
+        game.registerAction('f', function () {
+            ball.fire()
+        })
+        // events
+        game.update = function () {
+            ball.move()
+            if (ball.cllide(paddle)) {
+                ball.speedY *= -1
+            }
+        }
+        game.draw = function () {
+            game.drawImage(paddle)
+            game.drawImage(ball)
+        }
+    }
+
+    __main()
+</script>
+</body>
+
+</html>
